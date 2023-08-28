@@ -21,6 +21,7 @@ BuildRequires: cmake(KF5DBusAddons)
 BuildRequires: cmake(KF5I18n)
 BuildRequires: cmake(KF5Notifications)
 BuildRequires: cmake(Qt5Core)
+BuildRequires: cmake(Qt5Test)
 
 %description
 Tooling for monitoring inotify limits and informing the user when they have been or about to be reached.
