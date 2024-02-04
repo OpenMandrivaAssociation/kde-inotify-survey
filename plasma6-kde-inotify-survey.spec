@@ -1,8 +1,8 @@
 %define stable %([ "`echo %{version} |cut -d. -f3`" -ge 80 ] && echo -n un; echo -n stable)
 
 Name: plasma6-kde-inotify-survey
-Version: 24.01.90
-Release: %{?git:0.%{git}.}3
+Version: 24.01.95
+Release: %{?git:0.%{git}.}1
 %if 0%{?git:1}
 Source0:        https://invent.kde.org/system/%{name}/-/archive/master/%{name}-master.tar.bz2
 %else
