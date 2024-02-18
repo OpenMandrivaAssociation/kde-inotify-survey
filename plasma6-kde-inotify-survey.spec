@@ -1,12 +1,23 @@
+%define git 20240218
+%define gitbranch release/24.02
+%define gitbranchd %(echo %{gitbranch} |sed -e "s,/,-,g")
 %define stable %([ "`echo %{version} |cut -d. -f3`" -ge 80 ] && echo -n un; echo -n stable)
 
 Name: plasma6-kde-inotify-survey
-Version: 24.01.95
-Release: %{?git:0.%{git}.}1
+Version: 24.01.96
+Release: %{?git:%{?git:0.%{git}.}0.%{git}.}1
 %if 0%{?git:1}
+%if 0%{?git:1}
+Source0:	https://invent.kde.org/system/kde-inotify-survey/-/archive/%{gitbranch}/kde-inotify-survey-%{gitbranchd}.tar.bz2#/kde-inotify-survey-%{git}.tar.bz2
+%else
 Source0:        https://invent.kde.org/system/%{name}/-/archive/master/%{name}-master.tar.bz2
+%endif
+%else
+%if 0%{?git:1}
+Source0:	https://invent.kde.org/system/kde-inotify-survey/-/archive/%{gitbranch}/kde-inotify-survey-%{gitbranchd}.tar.bz2#/kde-inotify-survey-%{git}.tar.bz2
 %else
 Source0:        https://download.kde.org/%{stable}/release-service/%{version}/src/kde-inotify-survey-%{version}.tar.xz
+%endif
 %endif
 Summary: Tooling for monitoring inotify limits and informing the user when they have been or about to be reached.
 URL: https://invent.kde.org/system/kde-inotify-survey
@@ -27,7 +38,7 @@ BuildRequires: cmake(Qt6Test)
 Tooling for monitoring inotify limits and informing the user when they have been or about to be reached.
 
 %prep
-%autosetup -p1 -n kde-inotify-survey-%{?git:master}%{!?git:%{version}}
+%autosetup -p1 -n kde-inotify-survey-%{?git:%{gitbranchd}}%{!?git:%{version}}
 %cmake \
 	-DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON \
 	-G Ninja
