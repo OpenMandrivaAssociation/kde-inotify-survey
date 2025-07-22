@@ -4,7 +4,7 @@
 %define stable %([ "`echo %{version} |cut -d. -f3`" -ge 80 ] && echo -n un; echo -n stable)
 
 Name: kde-inotify-survey
-Version: 25.04.0
+Version: 25.04.3
 Release: %{?git:%{?git:0.%{git}.}0.%{git}.}1
 %if 0%{?git:1}
 %if 0%{?git:1}
@@ -23,8 +23,6 @@ Summary: Tooling for monitoring inotify limits and informing the user when they 
 URL: https://invent.kde.org/system/kde-inotify-survey
 License: GPL
 Group: System/Libraries
-BuildRequires: cmake
-BuildRequires: ninja
 BuildRequires: cmake(ECM)
 BuildRequires: cmake(KF6Auth)
 BuildRequires: cmake(KF6CoreAddons)
@@ -34,23 +32,15 @@ BuildRequires: cmake(KF6Notifications)
 BuildRequires: cmake(Qt6Core)
 BuildRequires: cmake(Qt6Test)
 
+%rename plasma6-kde-inotify-survey
+
+BuildSystem:	cmake
+BuildOption:	-DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON
+
 %description
 Tooling for monitoring inotify limits and informing the user when they have been or about to be reached.
 
-%prep
-%autosetup -p1 -n kde-inotify-survey-%{?git:%{gitbranchd}}%{!?git:%{version}}
-%cmake \
-	-DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON \
-	-G Ninja
-
-%build
-%ninja_build -C build
-
-%install
-%ninja_install -C build
-%find_lang kde-inotify-survey
-
-%files -f kde-inotify-survey.lang
+%files -f %{name}.lang
 %{_bindir}/kde-inotify-survey
 %{_libdir}/libexec/kf6/kauth/kded-inotify-helper
 %{_libdir}/qt6/plugins/kf6/kded/inotify.so
